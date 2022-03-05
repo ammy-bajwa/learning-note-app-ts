@@ -47,11 +47,16 @@ function App() {
   return (
     <div>
       <form onSubmit={handleAddNoteForm}>
-        <input type="text" required onChange={handleNoteInputChange} />
+        <input
+          type="text"
+          required
+          onChange={handleNoteInputChange}
+          // value={inputText}
+        />
         <button type="submit">Add note</button>
       </form>
       {notes.map((note, i) => (
-        <div>
+        <div key={note.id}>
           <h1>{note.text}</h1>
           <button onClick={() => handleEdit(note.id)}>Edit</button>
           <button onClick={() => handleDelete(note.id)}>Delete</button>
