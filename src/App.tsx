@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CustomeButton from "./componets/customeButton";
 import { Note } from "./types";
 
 function App() {
@@ -89,14 +90,22 @@ function App() {
           placeholder="Please add text here"
           value={inputText}
         />
-        <button type="submit">{isEditing ? "Update Note" : "Add note"}</button>
-        {isEditing && <button onClick={resetStates}>Cancel</button>}
+        <CustomeButton
+          text={isEditing ? "Update Note" : "Add note"}
+          type="submit"
+        />
+        {isEditing && (
+          <CustomeButton text="Cancel" clickHandler={resetStates} />
+        )}
       </form>
       {notes.map((note, i) => (
         <div key={note.id}>
           <h1>{note.text}</h1>
-          <button onClick={() => handleEdit(note.id)}>Edit</button>
-          <button onClick={() => handleDelete(note.id)}>Delete</button>
+          <CustomeButton text="Edit" clickHandler={() => handleEdit(note.id)} />
+          <CustomeButton
+            text="Delete"
+            clickHandler={() => handleDelete(note.id)}
+          />
         </div>
       ))}
     </div>
