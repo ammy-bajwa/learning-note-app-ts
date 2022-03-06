@@ -1,13 +1,19 @@
-import { FC, FormEventHandler, Dispatch, useEffect } from "react";
+import {
+  FC,
+  FormEventHandler,
+  Dispatch,
+  useEffect,
+  SetStateAction,
+} from "react";
 import CustomeButton from "../customeButton";
 
 interface NoteFormProps {
   isEditing: boolean;
   onSubmitHandler: FormEventHandler<HTMLFormElement>;
   inputText: string;
-  setInputText: Dispatch<React.SetStateAction<string>>;
-  setIsEditing: Dispatch<React.SetStateAction<boolean>>;
-  setSelectedNoteId: Dispatch<React.SetStateAction<string>>;
+  setInputText: Dispatch<SetStateAction<string>>;
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
+  setSelectedNoteId: Dispatch<SetStateAction<string>>;
   setResetStates: any;
 }
 
