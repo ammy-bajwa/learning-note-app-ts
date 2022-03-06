@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CustomeButton from "./componets/customeButton";
+import NoteForm from "./componets/noteForm";
 import { Note } from "./types";
 
 function App() {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [inputText, setInputText] = useState<string>("");
   const [selectedNoteId, setSelectedNoteId] = useState<string>("");
+  const [inputText, setInputText] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [resetStates, setResetStates] = useState<any>(null);
 
   const handleAddNoteForm = (event: React.FormEvent) => {
     event.preventDefault();
@@ -29,14 +31,9 @@ function App() {
     setNotes([...notes, noteObj]);
     // notes.push(noteObj);
     // setNotes(notes);
-    resetStates();
-  };
-
-  const handleNoteInputChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    const inputText = event.target.value;
-    setInputText(inputText);
+    if (resetStates) {
+      resetStates();
+    }
   };
 
   const handleEdit = (id: string) => {
@@ -61,12 +58,6 @@ function App() {
     setNotes(updatedArr);
   };
 
-  const resetStates = () => {
-    setIsEditing(false);
-    setInputText("");
-    setSelectedNoteId("");
-  };
-
   const handleUpdateNote: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const updatedArr = notes.map((note) => {
@@ -77,27 +68,23 @@ function App() {
     });
 
     setNotes(updatedArr);
-    resetStates();
+
+    if (resetStates) {
+      resetStates();
+    }
   };
 
   return (
     <div>
-      <form onSubmit={isEditing ? handleUpdateNote : handleAddNoteForm}>
-        <input
-          type="text"
-          required
-          onChange={handleNoteInputChange}
-          placeholder="Please add text here"
-          value={inputText}
-        />
-        <CustomeButton
-          text={isEditing ? "Update Note" : "Add note"}
-          type="submit"
-        />
-        {isEditing && (
-          <CustomeButton text="Cancel" clickHandler={resetStates} />
-        )}
-      </form>
+      <NoteForm
+        onSubmitHandler={isEditing ? handleUpdateNote : handleAddNoteForm}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        setSelectedNoteId={setSelectedNoteId}
+        inputText={inputText}
+        setInputText={setInputText}
+        setResetStates={setResetStates}
+      />
       {notes.map((note, i) => (
         <div key={note.id}>
           <h1>{note.text}</h1>
