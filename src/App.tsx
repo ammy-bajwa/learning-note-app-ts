@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import CustomeButton from "./componets/customeButton";
+import { useState } from "react";
+import Note from "./componets/note";
 import NoteForm from "./componets/noteForm";
-import { Note } from "./types";
+import { Note as NoteType } from "./types";
 
 function App() {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<NoteType[]>([]);
   const [selectedNoteId, setSelectedNoteId] = useState<string>("");
   const [inputText, setInputText] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -13,7 +13,7 @@ function App() {
   const handleAddNoteForm = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const noteObj: Note = {
+    const noteObj: NoteType = {
       text: inputText,
       id: Math.random() + inputText,
     };
@@ -37,7 +37,6 @@ function App() {
   };
 
   const handleEdit = (id: string) => {
-    console.log("handleEdit");
     setIsEditing(true);
     // Get the note which is editing
     // Input field text changed to the edited note
@@ -86,14 +85,7 @@ function App() {
         setResetStates={setResetStates}
       />
       {notes.map((note, i) => (
-        <div key={note.id}>
-          <h1>{note.text}</h1>
-          <CustomeButton text="Edit" clickHandler={() => handleEdit(note.id)} />
-          <CustomeButton
-            text="Delete"
-            clickHandler={() => handleDelete(note.id)}
-          />
-        </div>
+        <Note note={note} handleEdit={handleEdit} handleDelete={handleDelete} />
       ))}
     </div>
   );
